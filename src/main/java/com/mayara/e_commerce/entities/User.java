@@ -19,6 +19,7 @@ public class User {
     private String password;
     //private String[] roles;
 
+    //one User for Many orders, I mean a list.The mappedBy with the Atribute value in the other class "client"
     @OneToMany(mappedBy = "client")
     private List<Order> orders = new ArrayList<>();
 
