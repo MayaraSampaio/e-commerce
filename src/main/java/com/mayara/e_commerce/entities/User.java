@@ -3,9 +3,7 @@ package com.mayara.e_commerce.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name="tb_user")
@@ -20,6 +18,13 @@ public class User {
     private LocalDate birthDate;
     private String password;
     //private String[] roles;
+
+    @ManyToMany
+    @JoinTable(name = "tb_user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
 
     //one User for Many orders, I mean a list.The mappedBy with the Atribute value in the other class "client"
     @OneToMany(mappedBy = "client")
@@ -87,6 +92,19 @@ public class User {
 
     public List<Order> getOrders() {
         return orders;
+    }
+
+    public void addRole(Role role){
+        roles.add(role);
+    }
+
+    public boolean hasRole(String roleName){
+     for(Role role : roles){
+         if(role.getAuthority().equals(roleName)) {
+             return true;
+         }
+     }
+     return false;
     }
 
     @Override
