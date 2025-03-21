@@ -24,42 +24,42 @@ public class CustomPasswordAuthenticationConverter implements AuthenticationConv
 	@Nullable
 	@Override
 	public Authentication convert(HttpServletRequest request) {
-		
+
 		String grantType = request.getParameter(OAuth2ParameterNames.GRANT_TYPE);
-				
+
 		if (!"password".equals(grantType)) {
 			return null;
 		}
-		
+
 		MultiValueMap<String, String> parameters = getParameters(request);
-		
+
 		// scope (OPTIONAL)
 		String scope = parameters.getFirst(OAuth2ParameterNames.SCOPE);
 		if (StringUtils.hasText(scope) &&
 				parameters.get(OAuth2ParameterNames.SCOPE).size() != 1) {
 			throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_REQUEST);
 		}
-		
+
 		// username (REQUIRED)
 		String username = parameters.getFirst(OAuth2ParameterNames.USERNAME);
 		if (!StringUtils.hasText(username) ||
 				parameters.get(OAuth2ParameterNames.USERNAME).size() != 1) {
 			throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_REQUEST);
 		}
-		
+
 		// password (REQUIRED)
 		String password = parameters.getFirst(OAuth2ParameterNames.PASSWORD);
 		if (!StringUtils.hasText(password) ||
 				parameters.get(OAuth2ParameterNames.PASSWORD).size() != 1) {
 			throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_REQUEST);
 		}
-				
+
 		Set<String> requestedScopes = null;
 		if (StringUtils.hasText(scope)) {
 			requestedScopes = new HashSet<>(
 					Arrays.asList(StringUtils.delimitedListToStringArray(scope, " ")));
 		}
-		
+
 		Map<String, Object> additionalParameters = new HashMap<>();
 		parameters.forEach((key, value) -> {
 			if (!key.equals(OAuth2ParameterNames.GRANT_TYPE) &&
@@ -67,13 +67,13 @@ public class CustomPasswordAuthenticationConverter implements AuthenticationConv
 				additionalParameters.put(key, value.get(0));
 			}
 		});
-		
-		Authentication clientPrincipal = SecurityContextHolder.getContext().getAuthentication();	
+
+		Authentication clientPrincipal = SecurityContextHolder.getContext().getAuthentication();
 		return new CustomPasswordAuthenticationToken(clientPrincipal, requestedScopes, additionalParameters);
 	}
 
 	private static MultiValueMap<String, String> getParameters(HttpServletRequest request) {
-		
+
 		Map<String, String[]> parameterMap = request.getParameterMap();
 		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>(parameterMap.size());
 		parameterMap.forEach((key, values) -> {
