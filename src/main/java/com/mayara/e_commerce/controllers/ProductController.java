@@ -1,5 +1,6 @@
 package com.mayara.e_commerce.controllers;
 import com.mayara.e_commerce.dtos.ProductDTO;
+import com.mayara.e_commerce.dtos.ProductMinDTO;
 import com.mayara.e_commerce.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,8 @@ public class ProductController {
     private ProductService service;
 
     @GetMapping
-    public ResponseEntity<Page<ProductDTO>> findAll(@RequestParam(name = "name",defaultValue ="") String name, Pageable pageable){
-        Page<ProductDTO> dto = service.findAll(name,pageable);
+    public ResponseEntity<Page<ProductMinDTO>> findAll(@RequestParam(name = "name",defaultValue ="") String name, Pageable pageable){
+        Page<ProductMinDTO> dto = service.findAll(name,pageable);
         return ResponseEntity.ok(dto);
     }
 

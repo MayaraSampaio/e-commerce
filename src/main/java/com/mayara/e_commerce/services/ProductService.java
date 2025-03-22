@@ -1,5 +1,6 @@
 package com.mayara.e_commerce.services;
 import com.mayara.e_commerce.dtos.ProductDTO;
+import com.mayara.e_commerce.dtos.ProductMinDTO;
 import com.mayara.e_commerce.entities.Product;
 import com.mayara.e_commerce.repositories.ProductRepository;
 import com.mayara.e_commerce.services.exceptions.DatabaseException;
@@ -26,9 +27,9 @@ public class ProductService {
         return new ProductDTO(product);
     }
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAll(String name,Pageable pageable){
+    public Page<ProductMinDTO> findAll(String name, Pageable pageable){
         Page<Product> result= repository.searchByName(name,pageable);
-        return result.map(x->new ProductDTO(x));
+        return result.map(x->new ProductMinDTO(x));
     }
 
     @Transactional
