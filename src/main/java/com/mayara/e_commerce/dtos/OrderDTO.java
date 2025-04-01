@@ -3,6 +3,8 @@ package com.mayara.e_commerce.dtos;
 import com.mayara.e_commerce.entities.Order;
 import com.mayara.e_commerce.entities.OrderItem;
 import com.mayara.e_commerce.entities.OrderStatus;
+import jakarta.validation.constraints.NotEmpty;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +16,7 @@ public class OrderDTO {
     private ClientDTO client;
     private PaymentDTO payment;
 
+    @NotEmpty(message = "Deve conter pelo menos 1 item")
     private List<OrderItemDTO> items = new ArrayList<>();
 
     public OrderDTO(Long id, Instant moment, OrderStatus status, ClientDTO client, PaymentDTO payment) {
