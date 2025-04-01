@@ -1,9 +1,6 @@
 package com.mayara.e_commerce.dtos;
 
 import com.mayara.e_commerce.entities.Product;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
 
 
 public class ProductMinDTO {

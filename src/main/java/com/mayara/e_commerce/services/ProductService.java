@@ -1,6 +1,8 @@
 package com.mayara.e_commerce.services;
+import com.mayara.e_commerce.dtos.CatergoryDTO;
 import com.mayara.e_commerce.dtos.ProductDTO;
 import com.mayara.e_commerce.dtos.ProductMinDTO;
+import com.mayara.e_commerce.entities.Category;
 import com.mayara.e_commerce.entities.Product;
 import com.mayara.e_commerce.repositories.ProductRepository;
 import com.mayara.e_commerce.services.exceptions.DatabaseException;
@@ -50,7 +52,6 @@ public class ProductService {
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Não encontrado");
         }
-
     }
     @Transactional(propagation = Propagation.SUPPORTS)
     public void delete(Long id){
@@ -62,15 +63,19 @@ public class ProductService {
         }catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Falha de integridade referencial");
         }
-
     }
-
     private void copyDtoToEntity(Product entity, ProductDTO dto){
         entity.setName(dto.getName());
         entity.setDescription(dto.getDescription());
         entity.setPrice(dto.getPrice());
         entity.setImgUrl(dto.getImgUrl());
-    }
 
+        entity.getCategories().clear();
+        for(CatergoryDTO catDto : dto.getCategories()){
+            Category cat = new Category();
+            cat.setId(catDto.getId());
+            entity.getCategories().add(cat);
+        }
+    }
 
 }
