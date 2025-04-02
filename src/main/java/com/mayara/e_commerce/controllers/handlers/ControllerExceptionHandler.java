@@ -3,6 +3,7 @@ package com.mayara.e_commerce.controllers.handlers;
 import com.mayara.e_commerce.dtos.CustomError;
 import com.mayara.e_commerce.dtos.ValidationError;
 import com.mayara.e_commerce.services.exceptions.DatabaseException;
+import com.mayara.e_commerce.services.exceptions.ForbiddenException;
 import com.mayara.e_commerce.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,11 @@ import java.time.Instant;
             }
             return ResponseEntity.status(status).body(err);
         }
-
+        @ExceptionHandler(ForbiddenException.class)
+        public ResponseEntity<CustomError> forbidden(ForbiddenException e, HttpServletRequest request) {
+            HttpStatus status = HttpStatus.FORBIDDEN;
+            CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(),request.getRequestURI());
+            return ResponseEntity.status(status).body(err);
+        }
     }
 

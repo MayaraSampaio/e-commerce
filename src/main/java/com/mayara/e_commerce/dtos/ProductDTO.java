@@ -23,7 +23,7 @@ public class ProductDTO {
     private Double price;
     private String imgUrl;
     @NotEmpty(message = "Deve conter pelo menos 1 categoria")
-    private List<CatergoryDTO> categories = new ArrayList<>();
+    private List<CategoryDTO> categories = new ArrayList<>();
 
     public ProductDTO(){}
 
@@ -42,7 +42,7 @@ public class ProductDTO {
         imgUrl = entity.getImgUrl();
 
         for (Category cat : entity.getCategories()){
-            categories.add(new CatergoryDTO(cat));
+            categories.add(new CategoryDTO(cat));
 
         }
     }
@@ -67,7 +67,7 @@ public class ProductDTO {
         return imgUrl;
     }
 
-    public List<CatergoryDTO> getCategories() {
+    public List<CategoryDTO> getCategories() {
         return categories;
     }
 }

@@ -1,5 +1,5 @@
 package com.mayara.e_commerce.services;
-import com.mayara.e_commerce.dtos.CatergoryDTO;
+import com.mayara.e_commerce.dtos.CategoryDTO;
 import com.mayara.e_commerce.dtos.ProductDTO;
 import com.mayara.e_commerce.dtos.ProductMinDTO;
 import com.mayara.e_commerce.entities.Category;
@@ -71,7 +71,7 @@ public class ProductService {
         entity.setImgUrl(dto.getImgUrl());
 
         entity.getCategories().clear();
-        for(CatergoryDTO catDto : dto.getCategories()){
+        for(CategoryDTO catDto : dto.getCategories()){
             Category cat = new Category();
             cat.setId(catDto.getId());
             entity.getCategories().add(cat);
